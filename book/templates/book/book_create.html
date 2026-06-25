@@ -1,0 +1,27 @@
+{% extends 'authentication/base.html' %}
+{% block content %}
+    <h2 class="page-title">Створити нову книгу</h2>
+    <div class="card form-wrapper">
+        <form method="POST">
+            {% csrf_token %}
+            <label>Назва:</label>
+            <input type="text" name="name" class="form-input" required>
+
+            <label>Опис:</label>
+            <input type="text" name="description" class="form-input">
+
+            <label>Кількість:</label>
+            <input type="number" name="count" class="form-input" value="1">
+
+            <label>Оберіть автора(ів):</label>
+            <select name="authors" class="form-input" multiple style="height: 100px;">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }} {{ author.surname }}</option>
+                {% endfor %}
+            </select>
+            <small>Використовуйте Ctrl для вибору кількох авторів.</small>
+
+            <button type="submit" class="btn btn-success" style="margin-top: 15px;">Створити</button>
+        </form>
+    </div>
+{% endblock %}

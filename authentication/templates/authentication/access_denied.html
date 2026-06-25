@@ -1,0 +1,15 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="card text-center">
+        <h2 class="text-danger page-title">Доступ заборонено</h2>
+        <p>У вас немає прав адміністратора або бібліотекаря для перегляду цієї сторінки.</p>
+        <br>
+        <form action="{% url 'logout_user' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-block">Вийти з акаунта</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

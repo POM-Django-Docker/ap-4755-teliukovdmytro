@@ -1,0 +1,25 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <h2 class="page-title">Додати нового автора</h2>
+
+    <div class="card form-wrapper">
+        <form action="{% url 'author_create' %}" method="POST">
+            {% csrf_token %}
+
+            <label>Ім'я:</label>
+            <input type="text" name="name" class="form-input" required>
+
+            <label>Прізвище:</label>
+            <input type="text" name="surname" class="form-input" required>
+
+            <label>По батькові:</label>
+            <input type="text" name="patronymic" class="form-input">
+
+            <div class="flex-start">
+                <button type="submit" class="btn btn-success">Зберегти автора</button>
+                <a href="{% url 'author_list' %}" class="btn btn-secondary">Скасувати</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

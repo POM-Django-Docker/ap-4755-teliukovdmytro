@@ -1,0 +1,24 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <h2 class="page-title">Список користувачів (Бібліотекар)</h2>
+
+    <table class="data-table">
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Ім'я Прізвище</th>
+            <th>Роль</th>
+            <th class="text-center">Дії</th>
+        </tr>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.first_name }} {{ u.last_name }}</td>
+            <td>{{ u.get_role_name }}</td>
+            <td class="text-center"><a href="{% url 'user_detail' u.id %}">Детальніше</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

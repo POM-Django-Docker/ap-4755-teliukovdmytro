@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система Бібліотеки</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="{% url 'book_list' %}" class="navbar-brand"> Бібліотека</a>
+
+        {% if request.user.is_authenticated %}
+
+            <a href="{% url 'book_list' %}">Книги</a>
+            <a href="{% url 'order_list' %}">Замовлення</a>
+
+            {% if request.user.role == 1 %}
+                <a href="{% url 'user_list' %}">Користувачі</a>
+                <a href="{% url 'author_list' %}">Автори</a>
+                <a href="{% url 'book_create' %}">Додати книгу</a>
+            {% endif %}
+
+            <div class="navbar-right">
+                <span class="user-greeting">Привіт, {{ request.user.first_name|default:request.user.email }}!</span>
+                <form action="{% url 'logout_user' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Вийти</button>
+                </form>
+            </div>
+
+        {% else %}
+            <div class="navbar-right">
+                <a href="{% url 'login_user' %}">Увійти</a>
+                <a href="{% url 'register_user' %}">Реєстрація</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

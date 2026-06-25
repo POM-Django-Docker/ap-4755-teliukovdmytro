@@ -1,0 +1,28 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <h2 class="page-title">Книга: {{ book.name }}</h2>
+
+    <div class="card detail-wrapper">
+        <ul class="detail-list" style="list-style: none; padding: 0;">
+            <li><strong>ID:</strong> {{ book.id }}</li>
+            <li><strong>Опис:</strong> {{ book.description|default:"Відсутній" }}</li>
+            <li><strong>Залишок:</strong> {{ book.count }} шт.</li>
+            <li>
+                <strong>Автори:</strong>
+                {% for author in book.authors.all %}
+                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    <span class="text-muted">Не вказано</span>
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
+
+    <div class="flex-start" style="margin-top: 20px;">
+        <a href="{% url 'book_list' %}" class="btn btn-dark">Назад</a>
+        {% if book.count > 0 %}
+            <a href="{% url 'order_create' book.id %}" class="btn btn-success">Взяти книгу</a>
+        {% endif %}
+    </div>
+{% endblock %}

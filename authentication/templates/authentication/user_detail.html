@@ -1,0 +1,21 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <h2 class="page-title">Деталі користувача: {{ target_user.email }}</h2>
+
+    <div class="card detail-wrapper">
+        <ul class="detail-list">
+            <li><strong>ID користувача:</strong> {{ target_user.id }}</li>
+            <li><strong>Email:</strong> {{ target_user.email }}</li>
+            <li><strong>Ім'я:</strong> {{ target_user.first_name|default:"—" }}</li>
+            <li><strong>Прізвище:</strong> {{ target_user.last_name|default:"—" }}</li>
+            <li><strong>По батькові:</strong> {{ target_user.middle_name|default:"—" }}</li>
+            <li><strong>Роль:</strong> {{ target_user.get_role_name }}</li>
+            <li><strong>Дата реєстрації:</strong> {{ target_user.created_at }}</li>
+            <li><strong>Статус (is_active):</strong> {{ target_user.is_active }}</li>
+        </ul>
+    </div>
+
+    <br>
+    <a href="{% url 'user_list' %}" class="btn btn-dark">Повернутися до списку</a>
+{% endblock %}

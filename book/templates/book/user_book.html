@@ -1,0 +1,20 @@
+{% extends 'authentication/base.html' %}
+{% block content %}
+    <h2 class="page-title">Книги у користувача: {{ user.email }}</h2>
+    <table class="data-table">
+        <tr>
+            <th>ID</th>
+            <th>Назва книги</th>
+            <th>Дата видачі</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.book.id }}</td>
+            <td>{{ order.book.name }}</td>
+            <td>{{ order.created_at|date:"d.m.Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" class="empty-row">Користувач не має активних книг.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

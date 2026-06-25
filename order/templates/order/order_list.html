@@ -1,0 +1,34 @@
+{% extends 'authentication/base.html' %}
+{% block content %}
+    <h2 class="page-title">Замовлення</h2>
+    <table class="data-table">
+        <tr>
+            <th>ID</th>
+            <th>Книга</th>
+            {% if request.user.role == 1 %}<th>Користувач</th>{% endif %}
+            <th>Дата видачі</th>
+            <th>Статус</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.book.name }}</td>
+            {% if request.user.role == 1 %}<td>{{ order.user.email }}</td>{% endif %}
+            <td>{{ order.created_at|date:"d.m.Y" }}</td>
+            <td>
+                {% if not order.end_at %}
+                    <span class="text-danger">Активне</span>
+                    {% if request.user.role == 1 %}
+                        <form action="{% url 'order_close' order.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Закрити</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <span style="color: green;">Закрито</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

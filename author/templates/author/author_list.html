@@ -1,0 +1,40 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <div class="flex-between">
+        <h2>Список авторів (Панель Бібліотекаря)</h2>
+        <a href="{% url 'author_create' %}" class="btn btn-success">+ Додати автора</a>
+    </div>
+
+    <table class="data-table">
+        <tr>
+            <th width="10%">ID</th>
+            <th width="25%">Прізвище</th>
+            <th width="25%">Ім'я</th>
+            <th width="25%">По батькові</th>
+            <th width="15%" class="text-center">Дії</th>
+        </tr>
+        {% for author in authors %}
+        <tr>
+            <td>{{ author.id }}</td>
+            <td><strong>{{ author.surname }}</strong></td>
+            <td>{{ author.name }}</td>
+            <td>{{ author.patronymic|default:"-" }}</td>
+            <td class="text-center">
+                {% if not author.books.exists %}
+                    <form action="{% url 'author_delete' author.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Видалити автора?')">Видалити</button>
+                    </form>
+                {% else %}
+                    <span class="text-muted">(Прив'язаний до книг)</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="empty-row">В базі даних ще немає жодного автора.</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
